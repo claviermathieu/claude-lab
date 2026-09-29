@@ -36,6 +36,12 @@ def decision(result: subprocess.CompletedProcess) -> str | None:
         ("Write", {"file_path": "modules/../data/x.csv"}),
         ("Bash", {"command": "echo 1 > data/x.csv"}),
         ("Bash", {"command": "rm -rf data/"}),
+        ("Bash", {"command": "cp /tmp/x.csv data/"}),
+        ("Bash", {"command": f"mv /tmp/x {ROOT}/data/y"}),
+        ("Bash", {"command": "cd modules && touch ../data/x"}),
+        ("Bash", {"command": "sed -i '' 's/a/b/' data/bilan.csv"}),
+        ("Bash", {"command": "cat a.csv | tee data/b.csv"}),
+        ("Bash", {"command": "X=1 rm data/bilan.csv"}),
     ],
 )
 def test_protect_data_refuse(tool, tool_input):
@@ -52,6 +58,10 @@ def test_protect_data_refuse(tool, tool_input):
         ("Read", {"file_path": "data/bilan.csv"}),
         ("Bash", {"command": "cat data/bilan.csv | head"}),
         ("Bash", {"command": "uv run python modules/07-mcp/server/make_sample_data.py"}),
+        ("Bash", {"command": f"cp {ROOT}/data/obligations.parquet /tmp/test/data/"}),
+        ("Bash", {"command": "cp data/bilan.csv /tmp/bilan.csv"}),
+        ("Bash", {"command": "ls data/ 2>&1 > /tmp/liste.txt"}),
+        ("Bash", {"command": "python3 x.py --out /tmp/data/x.csv"}),
     ],
 )
 def test_protect_data_laisse_passer(tool, tool_input):
