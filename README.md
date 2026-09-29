@@ -13,3 +13,11 @@ notes/        veille, fiches de synthèse
 .claude/      config Claude Code versionnée (sert de terrain d'exercice)
 .mcp.json     serveurs MCP au scope projet
 ```
+
+## Démarrage
+```bash
+uv sync                                                   # .venv local (Python ≥ 3.12)
+uv run pytest -q                                          # tests des modules
+export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token)"    # pour le serveur MCP GitHub (.mcp.json)
+claude                                                    # approuver le serveur `github` au 1er lancement
+```
