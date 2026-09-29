@@ -85,6 +85,18 @@ Format d'une entrée, sur une ligne : **fait** · [source](url) · impact pour m
 | [L'Argus de l'assurance](https://www.argusdelassurance.com) | Actualité du marché français |
 | [arXiv q-fin.RM](https://arxiv.org/list/q-fin.RM/recent) | Recherche en gestion des risques, ML appliqué à l'assurance (à parcourir une fois par mois) |
 
+### 4. Presse économique sur abonnement : Les Echos
+
+Lu **dans ton Chrome, où tu es connecté à ton abonnement**, via Claude in Chrome. Voir « Brancher Les Echos » plus bas.
+
+Rubriques à parcourir (URL probables, à confirmer au premier passage : le site bloque les accès automatisés) :
+- Banque-Assurance : `lesechos.fr/finance-marches/banque-assurances`
+- Intelligence artificielle : `lesechos.fr/tech-medias/intelligence-artificielle`
+- Tech-Médias : `lesechos.fr/tech-medias`
+- Finance & Marchés, pour les taux et les marchés : `lesechos.fr/finance-marches`
+
+**Règle** : une ligne de résumé, écrite avec tes mots, et le lien. Jamais le texte de l'article ni de longues citations, pour respecter l'abonnement et le droit d'auteur. Les entrées vont dans le thème correspondant (assurance, IA ou tech) avec la mention « (Les Echos, abonné) ».
+
 ### Rendez-vous à ne pas manquer
 
 - **Chaque mois** : la courbe EIOPA et l'ajustement symétrique actions.
@@ -103,8 +115,23 @@ Dans la section « Synthèse du mois » du fichier mensuel :
 3. Mettre à jour la fiche [M00](../../modules/00-etat-de-l-art/README.md) si la gamme de modèles ou les prix ont changé.
 4. Choisir **un** sujet à tester dans le lab le mois suivant, par exemple une fonctionnalité Databricks ou un nouveau paramètre d'API.
 
+## Brancher Les Echos (Claude in Chrome)
+
+À faire une seule fois :
+1. Installer l'extension **Claude in Chrome** depuis le Chrome Web Store et la connecter à ton compte Claude.
+2. Dans Chrome, se connecter à lesechos.fr avec ton abonnement. La session reste ouverte.
+3. Lancer Claude Code avec l'intégration navigateur, depuis un terminal à la racine du repo : `claude --chrome`. Dans une session déjà ouverte, `/chrome` permet de vérifier la connexion.
+
+Ensuite, chaque vendredi : `claude --chrome`, puis `/veille`.
+- La commande ouvre les rubriques des Echos dans un nouvel onglet de ton Chrome et lit les titres de la semaine.
+- Elle ouvre les articles pertinents et ajoute un résumé d'une ligne pour chacun.
+- Chrome te demandera d'autoriser le site lesechos.fr la première fois.
+- Sans `--chrome`, `/veille` saute Les Echos et le signale dans son résumé.
+
+Ton mot de passe n'est jamais transmis à Claude : il utilise la session déjà ouverte dans ton navigateur.
+
 ## Automatiser davantage (optionnel)
 
-- La commande `/veille` peut tourner seule chaque vendredi grâce à une routine planifiée : demander « planifie /veille tous les vendredis à 8 h ».
+- La commande `/veille` peut tourner seule chaque vendredi grâce à une routine planifiée : demander « planifie /veille tous les vendredis à 8 h ». Une routine qui tourne dans le cloud n'a pas accès à ton Chrome : Les Echos restent à faire en session locale avec `--chrome`.
 - Le tri reste manuel : c'est ce tri qui fait la valeur de la veille.
 - Un lecteur RSS (Feedly, Inoreader, NetNewsWire) avec un dossier par thème reprenant les sources ci-dessus complète la collecte faite par Claude.
