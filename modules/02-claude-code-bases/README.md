@@ -52,7 +52,7 @@ Module [eiopa_curve/](eiopa_curve/) généré avec Claude Code, testé ([tests/]
 
 ```bash
 uv sync                                                  # crée .venv (Python ≥ 3.12, numpy, pytest, ruff)
-uv run pytest -q                                         # 13 tests
+uv run pytest -q                                         # tous les tests du repo
 cd modules/02-claude-code-bases && ../../.venv/bin/python -m eiopa_curve   # démo
 ```
 
@@ -60,9 +60,11 @@ Démo (courbe swap EUR fictive 1–20 ans, UFR 3,30 %, CRA 10 bp) : α = 0,103, 
 
 Tests couverts : reproduction exacte des taux aux points liquides, application de la CRA, critère de convergence 1 bp, minimalité de α, convergence du forward vers l'UFR, cohérence dérivée analytique / différences finies, matrice W symétrique définie positive, validation des entrées.
 
-### Limites connues
-- Pas d'ajustement de volatilité (VA) ni d'interpolation depuis des taux swap par-rate (on part de taux zéro-coupon).
-- Courbe d'entrée fictive : comparer à la courbe EIOPA publiée (fichier mensuel `EIOPA_RFR_*.xlsx`) avant tout usage.
+### Limites connues (complétées par la revue `/review-actuariel`, cf. [M05](../05-slash-commands-subagents/demo/review-eiopa-curve.md))
+- Entrées traitées comme des **taux zéro-coupon** ; l'EIOPA calibre sur des **swaps au pair** (matrice de flux C). Impossible de rejouer une courbe officielle à 0,1 bp tant que ce n'est pas généralisé.
+- `cra_bp` vaut 0 par défaut (l'EIOPA applique 10–35 bp) : à passer explicitement.
+- Pas de VA. Méthode Smith-Wilson « historique » uniquement : la directive (UE) 2025/2 introduit FSP/LLFR à partir de 2027.
+- Corrigé suite à la revue : forme numériquement stable de W (plus de NaN pour α·u grand), rejet des taux NaN/≤ −100 %, erreur explicite si l'écart de convergence n'est pas fini (tests LLP 50 ans ajoutés).
 
 ## Exercices
 - [x] Notes sur modes, commandes, reprise, headless.

@@ -62,7 +62,14 @@ def test_point_de_convergence_eiopa():
 
 @pytest.mark.parametrize(
     "maturities, rates",
-    [([1, 2], [0.02]), ([2, 1], [0.02, 0.02]), ([0, 1], [0.02, 0.02]), ([], [])],
+    [
+        ([1, 2], [0.02]),
+        ([2, 1], [0.02, 0.02]),
+        ([0, 1], [0.02, 0.02]),
+        ([], []),
+        ([1, 2], [0.02, float("nan")]),
+        ([1, 2], [0.02, -1.5]),
+    ],
 )
 def test_entrees_invalides(maturities, rates):
     with pytest.raises(ValueError):
@@ -72,3 +79,18 @@ def test_entrees_invalides(maturities, rates):
 def test_forward_intensity_refuse_maturite_courte(curve):
     with pytest.raises(ValueError):
         curve.forward_intensity(10)
+
+
+def test_llp_50_stable_numeriquement():
+    """LLP 50 ans (type GBP/USD) : point de convergence 90 ans, pas de dépassement."""
+    maturities = np.array([1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 40, 50], dtype=float)
+    rates = np.linspace(0.035, 0.041, maturities.size)
+    c = calibrate(maturities, rates, ufr=UFR)
+    assert np.all(np.isfinite(c.spot(np.arange(1, 151))))
+    np.testing.assert_allclose(c.spot(maturities), rates, atol=1e-10)
+    assert convergence_gap(c, convergence_point(50)) <= CONVERGENCE_TOLERANCE
+
+
+def test_wilson_grand_alpha_sans_nan():
+    w = wilson(np.array([50.0]), np.array([50.0]), 20.0, np.log1p(UFR))
+    assert np.all(np.isfinite(w))

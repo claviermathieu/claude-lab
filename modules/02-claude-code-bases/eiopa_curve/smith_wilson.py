@@ -24,7 +24,12 @@ def wilson(t: np.ndarray, u: np.ndarray, alpha: float, omega: float) -> np.ndarr
     t = np.asarray(t, dtype=float)[:, None]
     u = np.asarray(u, dtype=float)[None, :]
     lo, hi = np.minimum(t, u), np.maximum(t, u)
-    return np.exp(-omega * (t + u)) * (alpha * lo - np.exp(-alpha * hi) * np.sinh(alpha * lo))
+    return np.exp(-omega * (t + u)) * (alpha * lo - _exp_sinh(alpha, hi, lo))
+
+
+def _exp_sinh(alpha: float, hi, lo):
+    """e^{-α·hi}·sinh(α·lo), sous forme stable (pas de dépassement pour α·lo grand)."""
+    return 0.5 * (np.exp(-alpha * (hi - lo)) - np.exp(-alpha * (hi + lo)))
 
 
 @dataclass(frozen=True)
@@ -64,9 +69,9 @@ class SmithWilsonCurve:
         tt = t[:, None]
         w = wilson(t, self.maturities, self.alpha, self.omega)
         # Pour t ≥ u : W = e^{-ω(t+u)} (αu − e^{-αt} sinh(αu))
-        dw = -self.omega * w + np.exp(-self.omega * (tt + u)) * self.alpha * np.exp(
-            -self.alpha * tt
-        ) * np.sinh(self.alpha * u)
+        dw = -self.omega * w + np.exp(-self.omega * (tt + u)) * self.alpha * _exp_sinh(
+            self.alpha, tt, u
+        )
         dp = -self.omega * np.exp(-self.omega * t) + dw @ self.zeta
         return -dp / self.discount(t)
 
@@ -113,6 +118,8 @@ def calibrate(
         raise ValueError("maturités et taux doivent être des vecteurs non vides de même taille")
     if np.any(maturities <= 0) or np.any(np.diff(maturities) <= 0):
         raise ValueError("les maturités doivent être strictement positives et croissantes")
+    if not np.all(np.isfinite(rates)) or np.any(rates <= -1):
+        raise ValueError("taux invalides (NaN, infinis ou ≤ -100 % après CRA)")
     if ufr <= -1:
         raise ValueError("UFR invalide")
 
@@ -120,7 +127,10 @@ def calibrate(
     point = convergence_point(maturities[-1], convergence_period)
 
     def gap(alpha: float) -> float:
-        return convergence_gap(_fit(maturities, rates, alpha, omega), point)
+        value = convergence_gap(_fit(maturities, rates, alpha, omega), point)
+        if not np.isfinite(value):
+            raise RuntimeError(f"écart de convergence non fini pour α = {alpha}")
+        return value
 
     if gap(ALPHA_MIN) <= tolerance:
         return _fit(maturities, rates, ALPHA_MIN, omega)
