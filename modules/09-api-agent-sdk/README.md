@@ -41,6 +41,7 @@ uv run python modules/09-api-agent-sdk/alm_agent_api.py --runs 2 --no-cache
 | 3 | **non** (`DISABLE_PROMPT_CACHING=1`) | 5 | 12 430 | 0 | 0 | 5 782 | 0,167 $ | 57 s |
 
 Lecture :
+- ⚠️ Coûts = `total_cost_usd` calculé par Claude Code. Ils ne se reproduisent qu'avec une écriture de cache à 8 $/M (2 × l'entrée, tarif du TTL **1 h**) : Claude Code semble écrire son cache en 1 h, alors que `alm_agent_api.py` utilise le TTL 5 min (1,25 ×). À garder en tête pour comparer les deux scripts (constat de la revue automatique M10).
 - Côté **entrée**, le cache divise le coût par ~9 à chaud (≈ 0,006 $ contre 0,050 $), et même à froid chaque tour relit le préfixe du tour précédent (9 060 tokens lus dès la 1re exécution).
 - Mais ici la **sortie domine** (5 000–6 000 tokens × 20 $/M ≈ 0,10–0,12 $) : l'économie totale n'est que de ~23 %. Le cache devient décisif quand le contexte est gros (documents, historique long) et la sortie courte.
 - **Latence** : pas d'effet mesurable sur un prompt de ~15 k tokens ; elle suit la longueur de la sortie (47 s pour 5 k tokens, 57 s pour 6 k).

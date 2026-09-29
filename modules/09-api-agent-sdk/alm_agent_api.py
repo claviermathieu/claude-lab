@@ -195,7 +195,7 @@ async def main_async(args) -> None:
 
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-    p.add_argument("--runs", type=int, default=2)
+    p.add_argument("--runs", type=int, default=2, choices=range(1, 11), metavar="1-10")
     p.add_argument("--no-cache", action="store_true")
     p.add_argument("--data-dir", type=Path, default=ROOT / "data")
     p.add_argument("--sortie", help="fichier où écrire la dernière note")
