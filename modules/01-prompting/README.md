@@ -39,9 +39,9 @@ Grille : +1 par erreur trouvée et corrigée, +1 si SCR corrigé = 206,5 ± 1, �
 5. **n = 1 ne prouve rien** : relancer chaque couple 5 fois pour mesurer la variance avant de conclure (cf. `build-eval` en M09).
 
 ### Prompt retenu
-v2 enrichi d'une section `<referentiel>` contenant les paramètres exacts (chocs, règle du A) — à industrialiser comme skill en M06.
+v2 + référentiel exact des paramètres, industrialisé comme skill [`scr-marche`](../../.claude/skills/scr-marche/SKILL.md) en M06 : avec lui, même le prompt v3 sur Sonnet obtient 4/4.
 
 ## Exercices
 - [x] 3 versions de prompt, exécutées sur Sonnet et Opus, comparées.
-- [ ] v4 = v2 + `<referentiel>` ; vérifier que Sonnet v3 est corrigé par l'apport de la règle.
+- [x] Apport du référentiel exact : fait sous forme de skill `scr-marche` (M06). Sonnet v3 + skill → **4/4** ([résultat](resultats/v3-decompose-sonnet-avec-skill.md)).
 - [ ] Relancer 5× chaque couple pour mesurer la variance.
