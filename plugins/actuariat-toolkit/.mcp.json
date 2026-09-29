@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "alm-data": {
+      "command": "uv",
+      "args": ["run", "--quiet", "--script", "${CLAUDE_PLUGIN_ROOT}/servers/alm_data/server.py"],
+      "env": { "ALM_DATA_DIR": "${ALM_DATA_DIR:-./data}" }
+    }
+  }
+}

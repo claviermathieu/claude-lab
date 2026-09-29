@@ -1,0 +1,13 @@
+{
+  "name": "claude-lab",
+  "owner": { "name": "Mathieu Clavier" },
+  "metadata": { "description": "Plugins issus du repo d'auto-formation claude-lab." },
+  "plugins": [
+    {
+      "name": "actuariat-toolkit",
+      "source": "./plugins/actuariat-toolkit",
+      "description": "Revue actuarielle, skills SCR marché / IFRS 9 / QRT, hooks qualité, MCP données ALM.",
+      "version": "0.1.0"
+    }
+  ]
+}

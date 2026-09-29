@@ -1,0 +1,10 @@
+id,gauche,operateur,droite,tolerance,description
+C01,S.02.01.R0500.C0010 - S.02.01.R0900.C0010,=,S.02.01.R1000.C0010,1,Bilan : total actif - total passif = excédent d'actif sur passif
+C02,S.02.01.R1000.C0010,=,S.23.01.R0700.C0060,1,Excédent d'actif sur passif du bilan = celui repris dans la réserve de réconciliation
+C03,S.23.01.R0580.C0010,=,S.25.01.R0200.C0100,1,SCR repris dans les fonds propres = SCR calculé
+C04,S.23.01.R0600.C0010,=,S.28.01.R0400.C0070,1,MCR repris dans les fonds propres = MCR calculé
+C05,S.23.01.R0620.C0010 * S.23.01.R0580.C0010,=,S.23.01.R0540.C0010,1,Ratio de couverture SCR × SCR = fonds propres éligibles au SCR
+C06,S.06.02.TOTAL.C0170,=,S.02.01.R0070.C0010 + S.02.01.R0220.C0010,1000,Total liste des actifs = placements + actifs en UC (hors trésorerie et prêts selon périmètre)
+C07,S.28.01.R0400.C0070,>=,0.25 * S.25.01.R0200.C0100,1,MCR ≥ 25 % du SCR
+C08,S.28.01.R0400.C0070,<=,0.45 * S.25.01.R0200.C0100,1,MCR ≤ 45 % du SCR
+C09,S.23.01.R0620.C0010,>=,1,0,Ratio de couverture du SCR ≥ 100 %
