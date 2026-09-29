@@ -4,14 +4,14 @@
 > Cochez au fil de l'eau. Chaque module = 1 livrable commité.
 
 ## Phase 0 — État de l'art (½ journée)
-- [ ] **M00** Panorama modèles 2026 : gamme Claude (Haiku 4.5, Sonnet 5.5, Opus 5.5, tier Mythos/Fable), concurrents (OpenAI, Google, open-weights). Critères : coût/token, contexte, latence, raisonnement (extended thinking).
-- [ ] Concepts à rafraîchir : fenêtre de contexte vs. context engineering, reasoning models, tool use, agents, RAG vs. MCP, prompt caching, batch.
-- [ ] Livrable : `modules/00-etat-de-l-art/README.md` — fiche 1 page + tableau de choix de modèle par cas d'usage.
+- [x] **M00** Panorama modèles 2026 : gamme Claude (Haiku 4.5, Sonnet 5.5, Opus 5.5, tier Mythos/Fable), concurrents (OpenAI, Google, open-weights). Critères : coût/token, contexte, latence, raisonnement (extended thinking).
+- [x] Concepts à rafraîchir : fenêtre de contexte vs. context engineering, reasoning models, tool use, agents, RAG vs. MCP, prompt caching, batch.
+- [x] Livrable : `modules/00-etat-de-l-art/README.md` — fiche 1 page + tableau de choix de modèle par cas d'usage.
 
 ## Phase 1 — Fondamentaux (1 journée)
-- [ ] **M01 Prompting** : rôle, contexte, balises XML, exemples, format de sortie, décomposition. Lire le guide prompt engineering Anthropic.
+- [x] **M01 Prompting** : rôle, contexte, balises XML, exemples, format de sortie, décomposition. Lire le guide prompt engineering Anthropic.
   - Exercice : prompt de revue d'un calcul de SCR marché ; itérer 3 versions, comparer.
-- [ ] **M02 Claude Code — bases** : installation (CLI + extension VS Code), modes (plan, auto-accept), `/init`, `/context`, `/compact`, `/clear`, `/model`, `/cost`, reprise de session (`--continue`, `--resume`), mode headless `claude -p`.
+- [x] **M02 Claude Code — bases** : installation (CLI + extension VS Code), modes (plan, auto-accept), `/init`, `/context`, `/compact`, `/clear`, `/model`, `/cost`, reprise de session (`--continue`, `--resume`), mode headless `claude -p`.
   - Exercice : faire générer par Claude un petit module Python (courbe EIOPA + interpolation Smith-Wilson) avec tests.
 
 ## Phase 2 — Configurer Claude Code (2 journées)
@@ -27,7 +27,7 @@
   - Livrables : skill `ifrs9-ecl` (méthodo + script Python de calcul ECL), skill `sii-reporting-qrt` (checklist + templates).
   - Tester le déclenchement : la `description` fait tout — la réécrire jusqu'à ce que le skill se charge au bon moment.
 - [ ] **M07 MCP (Model Context Protocol)** : architecture client/serveur, transports (stdio, HTTP streamable), primitives (tools, resources, prompts), scopes (`local`, `project` → `.mcp.json`, `user`), `claude mcp add|list|remove`, `/mcp`, authentification OAuth, sécurité (prompt injection via données d'outils).
-  - Exercice 1 : brancher des serveurs existants (GitHub, filesystem, BigQuery/GCP).
+  - Exercice 1 : brancher des serveurs existants (GitHub ✅, filesystem, BigQuery/GCP).
   - Exercice 2 : écrire son serveur MCP en Python (SDK `mcp` / FastMCP) exposant 2 outils : lecture d'un Parquet DVC, calcul de duration/convexité d'un portefeuille.
   - Livrable : `modules/07-mcp/server/` + entrée dans `.mcp.json`.
 - [ ] **M08 Plugins** : packager commandes + agents + skills + hooks + MCP dans un plugin, marketplaces, installation `/plugin`.
