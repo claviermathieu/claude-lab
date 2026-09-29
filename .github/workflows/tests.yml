@@ -1,0 +1,22 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Dépendances
+        run: uv sync --locked
+      - name: Lint
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Tests
+        run: uv run pytest -q
+      - name: Plugin à jour
+        # Le plugin est généré depuis .claude/ : échoue si quelqu'un a oublié de lancer build.sh.
+        run: plugins/build.sh && git diff --exit-code -- plugins/

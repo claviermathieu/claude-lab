@@ -7,3 +7,4 @@ __pycache__/
 .claude/settings.local.json
 CLAUDE.local.md
 data/
+modules/10-automatisation-ci/cloudrun/referentiel/

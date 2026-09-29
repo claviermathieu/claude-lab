@@ -1,0 +1,34 @@
+{
+  "revue": {
+    "verdict": "ok",
+    "constats": [
+      {
+        "gravite": "mineur",
+        "fichier": "modules/09-api-agent-sdk/README.md",
+        "constat": "Le coût de l'exécution à froid (0,159 $) ne se reproduit pas avec la grille PRIX du script API. Écriture cache à 5,00 $/M donne 0,137 $. On retrouve 0,159 $ avec une écriture à 8 $/M, soit 2 × l'entrée (TTL 1 h), et les exécutions 2 et 3 concordent avec ce même tarif. Le SDK écrit donc probablement en cache 1 h, alors que `alm_agent_api.py` demande le TTL 5 min par défaut. Le comparatif prévu (dernier exercice non coché) mélangera deux tarifs d'écriture. Il faut le préciser dans le README ou fixer le TTL."
+      },
+      {
+        "gravite": "mineur",
+        "fichier": "modules/09-api-agent-sdk/README.md",
+        "constat": "Les conclusions sur le cache reposent sur une seule exécution par cas. La sortie varie de 5 782 à 6 019 tokens, ce qui pèse plus que l'effet du cache sur le coût total : le gain de ~23 % et l'absence d'effet sur la latence sont donc indicatifs. La réduction de ~9 × côté entrée est en revanche correcte, à 6 000 tokens de sortie près."
+      },
+      {
+        "gravite": "mineur",
+        "fichier": "modules/09-api-agent-sdk/resultats/note-alm-agent-sdk.md",
+        "constat": "La synthèse annonce une variation « de moins de 6,0 M€ », alors que le calcul B à −100 pb avec convexité donne +6,0 M€ (5,94 au premier ordre, ~5,95 à 6,0 avec convexité). C'est au mieux « environ 6 M€ ». J'ai refait les autres chiffres à la main (gaps −0,40 et +0,65, chocs A et B, effet de convexité net −0,8, écarts +5,3 % et +22,1 %, fonds propres B 212,0) : ils sont cohérents. Le calcul A applique en outre des durations issues de valorisations recalculées (731 et 659 M€) à des montants du bilan (770 et 805 M€). Ce mélange est présenté comme hypothèse, mais reste une approximation."
+      },
+      {
+        "gravite": "mineur",
+        "fichier": "modules/09-api-agent-sdk/alm_agent_api.py",
+        "constat": "Avec `--runs 0` et `--sortie`, `note` n'est pas défini et le script lève un `NameError`. Seule la dernière note est écrite, sans avertissement. Il faut fixer un minimum de 1 pour `--runs` ou initialiser `note`."
+      },
+      {
+        "gravite": "mineur",
+        "fichier": "modules/09-api-agent-sdk/alm_agent_api.py",
+        "constat": "`ALM_DATA_DIR` est transmis tel quel au serveur MCP. Le serveur compare `DATA_DIR` (non résolu) au chemin résolu (`server.py:32-34`). Un `--data-dir` relatif ou passant par un lien symbolique fera donc échouer tous les accès avec « hors racine ». Il faut passer `args.data_dir.resolve()`. Même remarque pour `alm_agent_sdk.py`."
+      }
+    ]
+  },
+  "cout_usd": 0.2889,
+  "duree_s": 38.9
+}
