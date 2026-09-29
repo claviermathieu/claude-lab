@@ -1,8 +1,15 @@
 {
   "name": "actuariat-toolkit",
-  "version": "0.1.0",
-  "description": "Outils actuariels pour Claude Code : revue actuarielle (commande + subagent valideur), skills SCR marché / IFRS 9 ECL / reporting QRT, hooks qualité et serveur MCP de données ALM.",
-  "author": { "name": "Mathieu Clavier" },
+  "version": "0.2.0",
+  "description": "Outils actuariels pour Claude Code : revue actuarielle et note ALM (commandes + subagent valideur), skills SCR marché / IFRS 9 ECL / reporting QRT / note ALM, hooks qualité et serveur MCP de données ALM.",
+  "author": {
+    "name": "Mathieu Clavier"
+  },
   "repository": "https://github.com/claviermathieu/claude-lab",
-  "keywords": ["actuariat", "solvabilite-ii", "ifrs9", "alm"]
+  "keywords": [
+    "actuariat",
+    "solvabilite-ii",
+    "ifrs9",
+    "alm"
+  ]
 }

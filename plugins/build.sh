@@ -39,7 +39,10 @@ cat > "$OUT/hooks/hooks.json" <<'JSON'
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
-        "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/ruff_format.py\"", "timeout": 30 }]
+        "hooks": [
+          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/ruff_format.py\"", "timeout": 30 },
+          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/check_note_alm.py\"", "timeout": 10 }
+        ]
       }
     ]
   }
@@ -65,10 +68,10 @@ cat > "$OUT/README.md" <<EOF
 
 | Composant | Contenu |
 |---|---|
-| Commande | \`/review-actuariel <chemin>\` |
+| Commandes | \`/review-actuariel <chemin>\`, \`/note-alm [taux]\` |
 | Subagent | \`model-validator\` (lecture seule, Opus) |
 | Skills | $(ls "$OUT/skills" | sed 's/^/`/; s/$/`/' | paste -sd, - | sed 's/,/, /g') |
-| Hooks | protection de \`data/\` (PreToolUse), \`ruff format\` des .py (PostToolUse) |
+| Hooks | protection de \`data/\` (PreToolUse), \`ruff format\` des .py et contrôle des notes ALM (PostToolUse) |
 | MCP | \`alm-data\` (stdio, \`uv run --script\`) — données dans \`\$ALM_DATA_DIR\` ou \`./data\` |
 
 Prérequis : \`uv\` et \`python3\` dans le PATH ; \`ruff\` (dans \`.venv\` du projet ou global) pour le hook de format.

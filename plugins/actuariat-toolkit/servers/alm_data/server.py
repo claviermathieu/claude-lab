@@ -185,5 +185,88 @@ def cashflow_duration(nom: str = "flux_passif.parquet", taux: float = 0.03) -> d
     }
 
 
+SEUIL_RECONCILIATION = 0.05
+
+
+@server.tool()
+def duration_gap(
+    taux: float = 0.03,
+    choc_bp: float = 100.0,
+    bilan: str = "bilan.csv",
+    obligations: str = "obligations.parquet",
+    passif: str = "flux_passif.parquet",
+) -> dict:
+    """Synthèse ALM calculée (à utiliser plutôt que de calculer soi-même) : réconciliation
+    bilan / valeurs recalculées, duration gap et variation des fonds propres à ±choc.
+
+    Deux bases : « bilan » (montants du bilan, durations des outils) et « recalculee »
+    (VM des obligations, VA des flux de passif au taux donné). Seuls obligations et
+    best estimate sont sensibles aux taux. ΔFP = −(D_A·A − D_P·P)·Δy + ½(C_A·A − C_P·P)·Δy².
+    Les ratios ΔFP/FP sont rapportés aux fonds propres du bilan.
+    """
+    b = _lire(bilan)
+    if not {"cote", "poste", "montant_meur"} <= set(b.columns):
+        raise ToolError("bilan : colonnes attendues cote, poste, montant_meur")
+    poste = dict(zip(b["poste"], b["montant_meur"], strict=True))
+    for requis in ("obligations", "best_estimate"):
+        if requis not in poste:
+            raise ToolError(f"bilan : poste « {requis} » absent")
+    total_actif = float(b.loc[b["cote"] == "actif", "montant_meur"].sum())
+    total_passif = float(b.loc[b["cote"] == "passif", "montant_meur"].sum())
+    fp = total_actif - total_passif
+
+    act = portfolio_duration_convexity(obligations, choc_bp)
+    pas = cashflow_duration(passif, taux)
+    d_a, c_a = act["duration_modifiee"], act["convexite"]
+    d_p, c_p = pas["duration_modifiee"], pas["convexite"]
+    dy = choc_bp / 1e4
+
+    def base(a: float, p: float) -> dict:
+        def delta(signe: int) -> float:
+            return -(d_a * a - d_p * p) * signe * dy + 0.5 * (c_a * a - c_p * p) * dy**2
+
+        return {
+            "actif_sensible": a,
+            "passif_sensible": p,
+            "duration_gap": d_a - d_p * p / a,
+            f"dfp_+{choc_bp:g}bp": delta(+1),
+            f"dfp_-{choc_bp:g}bp": delta(-1),
+            f"dfp_sur_fp_+{choc_bp:g}bp": delta(+1) / fp,
+            f"dfp_sur_fp_-{choc_bp:g}bp": delta(-1) / fp,
+        }
+
+    def ecart(bilan_val: float, recalcule: float) -> dict:
+        rel = (recalcule - bilan_val) / bilan_val
+        return {
+            "bilan": bilan_val,
+            "recalcule": recalcule,
+            "ecart": recalcule - bilan_val,
+            "ecart_relatif": rel,
+            "au_dela_du_seuil": abs(rel) > SEUIL_RECONCILIATION,
+        }
+
+    bases = {
+        "bilan": base(float(poste["obligations"]), float(poste["best_estimate"])),
+        "recalculee": base(act["valeur_marche"], pas["valeur_actuelle"]),
+    }
+    signes = {v["duration_gap"] > 0 for v in bases.values()}
+    return {
+        "versions_dvc": {
+            bilan: _version_dvc(_chemin(bilan)),
+            obligations: act["version_dvc"],
+            passif: pas["version_dvc"],
+        },
+        "hypotheses": {"taux_passif": taux, "choc_bp": choc_bp, "seuil": SEUIL_RECONCILIATION},
+        "fonds_propres_bilan": fp,
+        "durations": {"D_A": d_a, "C_A": c_a, "D_P": d_p, "C_P": c_p},
+        "reconciliation": {
+            "obligations": ecart(float(poste["obligations"]), act["valeur_marche"]),
+            "best_estimate": ecart(float(poste["best_estimate"]), pas["valeur_actuelle"]),
+        },
+        "bases": bases,
+        "signe_du_gap_robuste": len(signes) == 1,
+    }
+
+
 if __name__ == "__main__":
     server.run()
