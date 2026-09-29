@@ -6,6 +6,11 @@
       "headers": {
         "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
+    },
+    "alm-data": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--quiet", "python", "modules/07-mcp/server/server.py"]
     }
   }
 }

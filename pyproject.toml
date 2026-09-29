@@ -3,7 +3,12 @@ name = "claude-lab"
 version = "0.1.0"
 description = "Exercices d'auto-formation à la configuration de Claude"
 requires-python = ">=3.12"
-dependencies = ["numpy>=2.0"]
+dependencies = [
+    "mcp>=2.2",
+    "numpy>=2.0",
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+]
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
