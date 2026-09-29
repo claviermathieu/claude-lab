@@ -1,0 +1,19 @@
+[project]
+name = "claude-lab"
+version = "0.1.0"
+description = "Exercices d'auto-formation à la configuration de Claude"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2.0"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["modules/02-claude-code-bases"]
+testpaths = ["modules"]
+
+[tool.ruff]
+line-length = 100
