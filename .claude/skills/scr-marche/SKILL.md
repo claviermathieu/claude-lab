@@ -47,8 +47,10 @@ Intuition : en baisse des taux, les pertes sur actions/immo/spread (scénarios d
 
 Utiliser le script plutôt que de calculer de tête :
 
+`<dossier du skill>` = dossier de base de ce skill (indiqué au chargement) ; les chemins restent valables que le skill vienne du projet ou d'un plugin.
+
 ```bash
-python3 .claude/skills/scr-marche/scripts/scr_marche.py \
+python3 <dossier du skill>/scripts/scr_marche.py \
   --taux-hausse 42 --taux-baisse 65 --actions-type1 200 --actions-type2 50 \
   --immobilier 150 --spread 40 --devise 12 --concentration 5 [--sa 0.0]
 ```

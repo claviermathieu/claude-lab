@@ -30,9 +30,11 @@ Utiliser [templates/checklist-cloture.md](templates/checklist-cloture.md) : la c
 ## Contrôles de cohérence inter-états
 Les règles sont dans [templates/controles.csv](templates/controles.csv) (id, formule gauche, opérateur, formule droite, tolérance, description). Les valeurs se saisissent dans un CSV `code,valeur` au format de [templates/valeurs-exemple.csv](templates/valeurs-exemple.csv), les codes étant de la forme `S.02.01.R0500.C0010`.
 
+`<dossier du skill>` = dossier de base de ce skill (indiqué au chargement) ; les chemins restent valables que le skill vienne du projet ou d'un plugin.
+
 ```bash
-python3 .claude/skills/sii-reporting-qrt/scripts/check_qrt.py \
-  --valeurs <valeurs.csv> [--controles .claude/skills/sii-reporting-qrt/templates/controles.csv]
+python3 <dossier du skill>/scripts/check_qrt.py \
+  --valeurs <valeurs.csv> [--controles <dossier du skill>/templates/controles.csv]
 ```
 
 Le script affiche chaque contrôle OK/KO avec l'écart, et sort en code 1 si un contrôle est KO. Les codes de cellule du modèle sont **indicatifs** : les aligner sur la taxonomie en vigueur.

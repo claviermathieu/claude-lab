@@ -33,10 +33,12 @@ ECL = Σ_scénarios w_s × Σ_{t=1..H} PD_marg,s(t) × LGD × EAD(t) × (1 + TIE
 
 ## 3. Calcul avec le script
 
+`<dossier du skill>` = dossier de base de ce skill (indiqué au chargement) ; les chemins restent valables que le skill vienne du projet ou d'un plugin.
+
 ```bash
-python3 .claude/skills/ifrs9-ecl/scripts/ecl.py \
-  --expositions .claude/skills/ifrs9-ecl/exemples/expositions.csv \
-  --pd .claude/skills/ifrs9-ecl/exemples/pd_cumulees.csv \
+python3 <dossier du skill>/scripts/ecl.py \
+  --expositions <dossier du skill>/exemples/expositions.csv \
+  --pd <dossier du skill>/exemples/pd_cumulees.csv \
   --scenarios base=0.5,favorable=0.2,defavorable=0.3 [--seuil-sicr 2.5] [--json]
 ```
 
