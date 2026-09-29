@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Exercices d'auto-formation à la configuration de Claude"
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=1.9.0",
+    "claude-agent-sdk>=0.2.162",
     "mcp>=2.2",
     "numpy>=2.0",
     "pandas>=3.0.6",
