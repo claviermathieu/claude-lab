@@ -68,6 +68,7 @@ Le contenu renvoyé par un outil MCP (texte d'une issue, d'une PR) est de la **d
 | `read_dataset(nom, colonnes, limite)` | Lecture Parquet/CSV, plafonnée à 500 lignes |
 | `portfolio_duration_convexity(nom, choc_bp)` | Prix, durations Macaulay/modifiée, convexité par titre et agrégées (pondération VM), sensibilité ±choc |
 | `cashflow_duration(nom, taux)` | VA, duration, convexité d'une série de flux (passif) |
+| `duration_gap(taux, choc_bp)` | Synthèse ALM déterministe : réconciliation bilan / recalculé (seuil 5 %), duration gap et ΔFP ±choc sur deux bases, robustesse du signe (ajouté en M11) |
 
 Données : `uv run python modules/07-mcp/server/make_sample_data.py` (40 obligations, 40 ans de flux de passif, bilan simplifié ; manifestes `.dvc` simulés, DVC n'étant pas installé).
 
@@ -79,7 +80,7 @@ Choix de conception :
 Déclaré dans [`.mcp.json`](../../.mcp.json) : `uv run --quiet python modules/07-mcp/server/server.py`.
 
 ### Tests
-- [tests/test_server.py](tests/test_server.py) — 13 cas : formules (zéro-coupon, pair, duration et convexité vs différences finies), protocole via `Client(server)` in-process, **transport stdio réel** (sous-processus), refus de `../secret.csv`, `/etc/passwd`.
+- [tests/test_server.py](tests/test_server.py) — 15 cas : formules (zéro-coupon, pair, duration et convexité vs différences finies), protocole via `Client(server)` in-process, **transport stdio réel** (sous-processus), refus de `../secret.csv`, `/etc/passwd`.
 - Test réel dans Claude Code (`claude -p … --mcp-config … --strict-mcp-config`) : « duration du portefeuille et du passif, duration gap ? » → actif VM 731,4 M€, D_mod 8,98 ; passif VA 659,4 M€, D_mod 9,06 ; gap pondéré +0,81 an. Claude signale de lui-même la limite (passif à taux plat vs rendements par titre).
 
 ## Exercices

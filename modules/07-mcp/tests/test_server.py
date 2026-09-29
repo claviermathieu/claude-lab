@@ -77,6 +77,7 @@ def test_outils_exposes(data_dir):
         "read_dataset",
         "portfolio_duration_convexity",
         "cashflow_duration",
+        "duration_gap",
     }
 
 
@@ -131,3 +132,36 @@ def test_transport_stdio_reel(data_dir):
 
     res = json.loads(asyncio.run(run()).content[0].text)
     assert res["duration_macaulay"] == pytest.approx(3)
+
+
+def test_duration_gap_calcul_et_reconciliation(data_dir):
+    pd.DataFrame(
+        {
+            "cote": ["actif", "actif", "passif", "passif"],
+            "poste": ["obligations", "actions", "best_estimate", "marge_de_risque"],
+            "montant_meur": [200.0, 20.0, 90.0, 10.0],
+        }
+    ).to_csv(data_dir / "bilan.csv", index=False)
+    res = json.loads(appeler("duration_gap", {"taux": 0.05}).content[0].text)
+    assert res["fonds_propres_bilan"] == pytest.approx(120.0)
+    d = res["durations"]
+    assert d["D_P"] == pytest.approx(3 / 1.05)  # flux unique à 3 ans
+    b = res["bases"]["bilan"]
+    assert b["duration_gap"] == pytest.approx(d["D_A"] - d["D_P"] * 90 / 200)
+    attendu = (
+        -(d["D_A"] * 200 - d["D_P"] * 90) * 0.01 + 0.5 * (d["C_A"] * 200 - d["C_P"] * 90) * 1e-4
+    )
+    assert b["dfp_+100bp"] == pytest.approx(attendu)
+    assert b["dfp_sur_fp_+100bp"] == pytest.approx(attendu / 120)
+    rec = res["reconciliation"]["best_estimate"]
+    assert rec["recalcule"] == pytest.approx(100 / 1.05**3)
+    assert rec["au_dela_du_seuil"] is False  # 86,4 vs 90 : écart de 4 %
+    assert res["reconciliation"]["obligations"]["au_dela_du_seuil"] is True  # 174,4 vs 200
+
+
+def test_duration_gap_poste_manquant(data_dir):
+    pd.DataFrame({"cote": ["actif"], "poste": ["actions"], "montant_meur": [1.0]}).to_csv(
+        data_dir / "bilan.csv", index=False
+    )
+    res = appeler("duration_gap")
+    assert res.is_error and "obligations" in res.content[0].text
