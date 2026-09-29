@@ -44,8 +44,8 @@
 - [x] **M11** Assistant ALM de bout en bout : skill méthodo + MCP données (BigQuery/Parquet) + subagent de validation + hooks qualité + UI Streamlit ou commande Claude Code. Démo + README d'architecture.
 
 ## Veille continue (15 min/semaine)
-- [ ] Changelog Claude Code, release notes API, blog Anthropic (anthropic.com/news), spec MCP (modelcontextprotocol.io). *(récurrent — 1re note : [notes/veille-2026-09.md](notes/veille-2026-09.md))*
-- [x] Consigner dans `notes/veille-AAAA-MM.md`.
+- [ ] Changelog Claude Code, release notes API, blog Anthropic (anthropic.com/news), spec MCP (modelcontextprotocol.io). *(chaque vendredi — mode d'emploi : [notes/veille/README.md](notes/veille/README.md), commande `/veille`)*
+- [x] Consigner dans `notes/veille/AAAA-MM.md` (thèmes : IA, tech/plateformes data, assurance/actuariat).
 
 ## Ressources
 - https://docs.claude.com — API, prompt engineering, Agent SDK, skills

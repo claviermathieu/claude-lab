@@ -4,7 +4,7 @@ Laboratoire personnel pour se remettre à niveau sur l'IA générative et maîtr
 
 - Feuille de route : [ROADMAP.md](ROADMAP.md) — tous les modules livrés au 29/09/2026
 - Contexte projet lu par Claude Code : [CLAUDE.md](CLAUDE.md)
-- Veille : [notes/](notes/)
+- Veille hebdomadaire : [notes/veille/](notes/veille/README.md) (mode d'emploi, sources, commande `/veille`)
 
 ## Structure
 ```
@@ -12,14 +12,15 @@ modules/NN-*/          un dossier par module (README : objectif, notes, résulta
 .claude/               config Claude Code réelle du repo
   settings.json        permissions + hooks
   hooks/               protect_data (PreToolUse), ruff_format et check_note_alm (PostToolUse)
-  commands/            /review-actuariel, /note-alm
+  commands/            /review-actuariel, /note-alm, /veille
   agents/              model-validator (lecture seule, Opus)
   skills/              scr-marche, ifrs9-ecl, sii-reporting-qrt, note-alm
 .mcp.json              serveurs MCP projet : github (distant), alm-data (stdio, modules/07-mcp/server)
 plugins/               plugin actuariat-toolkit GÉNÉRÉ depuis .claude/ (plugins/build.sh)
 .claude-plugin/        marketplace du repo
 .github/workflows/     tests (actif), claude (@claude), claude-review (revue auto des PR)
-notes/                 veille, notes ALM produites par l'assistant
+notes/veille/          veille hebdomadaire (guide, modèle, un fichier par mois)
+notes/alm/             notes ALM produites par l'assistant
 data/                  données d'exemple (ignorées par git, régénérables)
 ```
 

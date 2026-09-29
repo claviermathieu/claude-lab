@@ -11,6 +11,7 @@ find "$OUT" -mindepth 1 -maxdepth 1 ! -name .claude-plugin -exec rm -rf {} +
 
 mkdir -p "$OUT"/{commands,agents,skills,hooks,servers/alm_data}
 cp "$ROOT"/.claude/commands/*.md "$OUT/commands/"
+rm -f "$OUT/commands/veille.md"  # propre à ce repo (notes/veille/), hors plugin
 cp "$ROOT"/.claude/agents/*.md "$OUT/agents/"
 cp -R "$ROOT"/.claude/skills/* "$OUT/skills/"
 cp "$ROOT"/.claude/hooks/*.py "$OUT/hooks/"
