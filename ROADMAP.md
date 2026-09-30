@@ -43,6 +43,10 @@
 ## Phase 5 — Projet final (2–3 journées)
 - [x] **M11** Assistant ALM de bout en bout : skill méthodo + MCP données (BigQuery/Parquet) + subagent de validation + hooks qualité + UI Streamlit ou commande Claude Code. Démo + README d'architecture.
 
+## Suite — avatar numérique de l'actuaire
+- [x] Note de réflexion : [notes/reflexions/2026-09-avatar-actuaire.md](notes/reflexions/2026-09-avatar-actuaire.md) (30/09/2026).
+- [ ] Projet dans un dépôt dédié, `claviermathieu/actuaire-avatar` (privé) : référentiel, skills par domaine, commandes, MCP droit et économie. Il reprendra à terme les skills, le subagent et le serveur `alm-data` de ce lab. Feuille de route propre au projet : `ROADMAP.md` du dépôt.
+
 ## Veille continue (15 min/semaine)
 - [ ] Changelog Claude Code, release notes API, blog Anthropic (anthropic.com/news), spec MCP (modelcontextprotocol.io). *(chaque vendredi — mode d'emploi : [notes/veille/README.md](notes/veille/README.md), commande `/veille`)*
 - [x] Consigner dans `notes/veille/AAAA-MM.md` (thèmes : IA, tech/plateformes data, assurance/actuariat).
