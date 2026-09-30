@@ -1,4 +1,5 @@
 <analyse>
+
 **1. Chocs**
 - Taux : SCR = max(42 ; 65) = 65, ce qui est correct. Les chocs par maturité (art. 166-167) ne sont pas vérifiables à partir de la note, car seuls les résultats sont fournis.
 - Actions type 1 : 39 % + SA (SA = 0 annoncé), soit 200 × 39 % = 78,0. C'est conforme à l'art. 169 §1 a).
