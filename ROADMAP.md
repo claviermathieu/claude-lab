@@ -47,7 +47,7 @@
 - [x] Note de réflexion : [notes/reflexions/2026-09-avatar-actuaire.md](notes/reflexions/2026-09-avatar-actuaire.md) (30/09/2026).
 - [ ] Projet dans un dépôt dédié, `claviermathieu/actuaire-avatar` (privé) : référentiel, skills par domaine, commandes, MCP droit et économie. Il reprendra à terme les skills, le subagent et le serveur `alm-data` de ce lab. Feuille de route propre au projet : `ROADMAP.md` du dépôt.
 - [ ] Élargissement (30/09/2026) : **avatar d'avatar**. Un avatar personnel (hub) délègue à des avatars métier (rayons : actuariel, tech/IA issu de ce lab…) via MCP et plugins. Réflexion : `docs/avatar-personnel.md` du dépôt `actuaire-avatar`. Ce lab en deviendrait le rayon « tech / IA », et la commande `/veille` migrerait vers le hub.
-- [ ] Hub lancé le 30/09/2026 : `~/avatar` (dépôt privé `claviermathieu/avatar`), alimenté par le Google Doc ESSAIS (synchronisation par la Docs API, diffs git, ontologie validée).
+- [ ] Hub lancé le 30/09/2026 : `~/Documents/Dev/repos/avatar` (dépôt privé `claviermathieu/avatar`), alimenté par le Google Doc ESSAIS (synchronisation par la Docs API, diffs git, ontologie validée).
 
 ## Veille continue (15 min/semaine)
 - [ ] Changelog Claude Code, release notes API, blog Anthropic (anthropic.com/news), spec MCP (modelcontextprotocol.io). *(chaque vendredi — mode d'emploi : [notes/veille/README.md](notes/veille/README.md), commande `/veille`)*
